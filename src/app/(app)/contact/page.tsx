@@ -63,6 +63,7 @@ export default function ContactPage() {
       form.reset();
     } catch (error) {
       setSubmitMessage("An error occurred. Please try again.");
+      console.log(error)
     } finally {
       setIsSubmitting(false);
     }
@@ -79,7 +80,7 @@ export default function ContactPage() {
               Contact Us
             </h1>
             <p className="text-lg text-gray-600">
-              Have questions about our hotel? Get in touch with us. We're here
+              Have questions about our hotel? Get in touch with us. We &apos re here
               to help!
             </p>
           </div>
@@ -128,7 +129,7 @@ export default function ContactPage() {
               <CardHeader>
                 <CardTitle>Send a Message</CardTitle>
                 <CardDescription>
-                  Fill out the form below, and we'll respond as soon as
+                  Fill out the form below, and we &apos ll respond as soon as
                   possible.
                 </CardDescription>
               </CardHeader>

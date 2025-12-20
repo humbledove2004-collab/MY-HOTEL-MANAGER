@@ -1,5 +1,5 @@
 "use client";
-import { use, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Gallery from "@/components/hotel/Gallery";
@@ -26,8 +26,8 @@ export default function HotelDescriptionPage({
 }) {
   const { hotel } = params;
 
-  const [showCompleted, setShowCompleted] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [, setShowCompleted] = useState(false);
+  const [open] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const hotelData = mockHotelData.find((hotelItems) => hotelItems.id === hotel);
@@ -164,7 +164,7 @@ export default function HotelDescriptionPage({
           {/* Map */}
           <section className="mt-10">
             <h2 className="text-xl font-semibold text-slate-900">
-              Where you'll be
+              Where you &apos ll be
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               Accra, Greater Accra Region, Ghana

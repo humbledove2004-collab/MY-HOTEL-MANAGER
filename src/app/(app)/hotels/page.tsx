@@ -22,7 +22,7 @@ function parseMiles(s: string): number {
   return m ? parseFloat(m[0]) : Number.POSITIVE_INFINITY;
 }
 
-export default function hotelPage() {
+export default function HotelPage() {
   const [filters, setFilters] = useState({
     price: 6000,
     roomType: [] as string[],

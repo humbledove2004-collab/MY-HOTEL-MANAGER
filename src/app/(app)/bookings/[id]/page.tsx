@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 // import { Star } from "lucide-react";
 import BOOKINGS from "@/lib/data/mockBookings";
 
-
 /* ---------------------------- Helpers ----------------------------- */
 function formatShort(d: string) {
   // -> 21/04/25
@@ -27,7 +26,9 @@ function Pill({
     danger: "text-rose-700 ring-1 ring-rose-200 bg-rose-50",
   } as const;
   return (
-    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs ${map[variant]}`}>
+    <span
+      className={`inline-flex items-center rounded-full px-3 py-1 text-xs ${map[variant]}`}
+    >
       {children}
     </span>
   );
@@ -43,7 +44,10 @@ export default function BookingDetailsPage({
   const booking = BOOKINGS.find((b) => b.id === params.id);
   if (!booking) notFound();
 
-  const statusVariant = booking.status === "completed" ? "success" : "danger";
+  // const statusVariant = booking.status === "completed" ? "success" : "danger";
+  const statusVariant: "success" | "danger" =
+  booking.status === "completed" ? "success" : "danger";
+
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -64,14 +68,20 @@ export default function BookingDetailsPage({
             {/* Status + Price */}
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
               <div>
-                <p className="text-xs font-medium text-slate-600 mb-2">Status</p>
-                <Pill variant={statusVariant as any}>
-                  {booking.status === "completed" ? "Booking Completed" : "Booking Cancelled"}
+                <p className="text-xs font-medium text-slate-600 mb-2">
+                  Status
+                </p>
+                <Pill variant={statusVariant}>
+                  {booking.status === "completed"
+                    ? "Booking Completed"
+                    : "Booking Cancelled"}
                 </Pill>
               </div>
 
               <div className="sm:text-right">
-                <p className="text-xs font-medium text-slate-600 mb-1">Price:</p>
+                <p className="text-xs font-medium text-slate-600 mb-1">
+                  Price:
+                </p>
                 <p className="text-sm font-semibold text-slate-900">
                   GHS {booking.price.toLocaleString()}
                 </p>
@@ -85,13 +95,17 @@ export default function BookingDetailsPage({
                   <p className="text-[11px] uppercase tracking-wide text-slate-500">
                     Check-in
                   </p>
-                  <p className="mt-1 font-medium text-slate-900">{formatShort(booking.bookingDetails.checkIn)}</p>
+                  <p className="mt-1 font-medium text-slate-900">
+                    {formatShort(booking.bookingDetails.checkIn)}
+                  </p>
                 </div>
                 <div className="p-4 sm:p-5">
                   <p className="text-[11px] uppercase tracking-wide text-slate-500">
                     Checkout
                   </p>
-                  <p className="mt-1 font-medium text-slate-900">{formatShort(booking.bookingDetails.checkOut)}</p>
+                  <p className="mt-1 font-medium text-slate-900">
+                    {formatShort(booking.bookingDetails.checkOut)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -109,7 +123,9 @@ export default function BookingDetailsPage({
               </div>
 
               <div>
-                <p className="text-sm font-semibold text-slate-900">Selected Bed</p>
+                <p className="text-sm font-semibold text-slate-900">
+                  Selected Bed
+                </p>
                 <div className="mt-2 rounded-2xl border border-blue-300 bg-blue-50/40 px-4 py-3 text-slate-900">
                   {booking.bookingDetails.bedLabel}
                 </div>

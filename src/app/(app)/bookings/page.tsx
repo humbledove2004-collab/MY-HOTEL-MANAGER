@@ -18,7 +18,7 @@ const BookingsPage = () => {
 
   const filtered = useMemo(
     () => bookings.filter((book) => book.status === tab),
-    [tab]
+    [tab,bookings]
   );
 
   return (
