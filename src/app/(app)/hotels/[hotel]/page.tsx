@@ -1,9 +1,8 @@
-"use client";
-import { useState } from "react";
+// ✅ CHANGED: Removed "use client" since we need async for params in Next.js 15+
+// This is now a Server Component that passes data to Client Components
+import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import Gallery from "@/components/hotel/Gallery";
-import BookingCard from "@/components/hotel/BookingCard";
 import HotelHeader from "@/components/hotel/HotelHeader";
 import Highlights from "@/components/hotel/Highlights";
 import DescriptionBlock from "@/components/hotel/DescriptionBlock";
@@ -15,36 +14,20 @@ import ExploreCarousel from "@/components/hotel/ExploreCarousel";
 import { mockHotelData } from "@/lib/data/mocHotels";
 import { ChevronLeft, Share2 } from "lucide-react";
 import Link from "next/link";
-// import SuccessScreen from "@/components/screens/SuccessScreen";
 import Navbar from "@/components/layout/Navbar";
-import ConfirmBookingCard from "@/components/cards/ConfirmBookingCard";
+import HotelPageClient from "@/components/hotel/HotelClient";
 
-export default function HotelDescriptionPage({
-  params,
-}: {
-  params: { hotel: string };
-}) {
-  const { hotel } = params;
+type PageProps = {
+  params: Promise<{ hotel: string }>;
+};
 
-  const [, setShowCompleted] = useState(false);
-  const [open] = useState(true);
-  const [showConfirm, setShowConfirm] = useState(false);
+export default async function HotelDescriptionPage({ params }: PageProps) {
+  const { hotel } = await params;
 
   const hotelData = mockHotelData.find((hotelItems) => hotelItems.id === hotel);
 
-  const handleConfirm = () => {
-    setShowConfirm(false);
-    setShowCompleted(true);
-    toast.success("Room Booked");
-  };
-  console.log(hotelData);
-
-  const close = () => {
-    setShowConfirm(false);
-  };
-
   if (!hotelData) {
-    return <div className="p-6 text-red-600">Hotel not found.</div>;
+    notFound();
   }
 
   return (
@@ -108,29 +91,11 @@ export default function HotelDescriptionPage({
               </div>
             </div>
 
-            {/* Booking card on desktop */}
+            {/* Booking card on desktop - wrapped in client component */}
             <aside className="sticky top-6">
-              <BookingCard
-                params={{ hotel: hotelData.id }}
-                onCompleted={() => {
-                  // setShowCompleted(true);
-                  setShowConfirm(true);
-                }}
-              />
+              <HotelPageClient hotelId={hotelData.id} />
             </aside>
           </div>
-
-          {showConfirm && (
-            <ConfirmBookingCard
-              open={open}
-              onClose={close}
-              onConfirm={handleConfirm}
-              title="Are you sure you want to book this room?"
-              confirmText="Confirm"
-              cancelText="Cancel"
-              loading={false}
-            />
-          )}
 
           <hr className="my-6" />
 
@@ -164,7 +129,7 @@ export default function HotelDescriptionPage({
           {/* Map */}
           <section className="mt-10">
             <h2 className="text-xl font-semibold text-slate-900">
-              Where you &apos ll be
+              Where you&apos;ll be
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               Accra, Greater Accra Region, Ghana
@@ -217,21 +182,6 @@ export default function HotelDescriptionPage({
           </div>
         </footer>
       </main>
-
-      {/* {showCompleted && (
-        <SuccessScreen
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          autoCloseMs={2500}
-          title="Room Booked"
-          message="You have successfully booked your room."
-          primaryCta={{ label: "Download Receipt", href: "/receipt.pdf" }}
-          secondaryCta={{
-            label: "Back to Dashboard",
-            onClick: () => setOpen(false),
-          }}
-        />
-      )} */}
     </>
   );
 }
